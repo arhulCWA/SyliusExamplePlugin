@@ -13,7 +13,7 @@
             "email": "a.rhul@CreatisWebArt.com",
             "homepage": "https://creatiswebart.com/",
             "role": "Developer"
-        },
+        }
     ],
     "license": "proprietary",
     "require": {

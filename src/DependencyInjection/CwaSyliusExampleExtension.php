@@ -35,7 +35,7 @@ final class CwaSyliusExampleExtension extends AbstractResourceExtension implemen
 
     protected function getMigrationsDirectory(): string
     {
-        return '@AcmeSyliusExamplePlugin/migrations';
+        return '@CwaSyliusExamplePlugin/migrations';
     }
 
     protected function getNamespacesOfMigrationsExecutedBefore(): array
