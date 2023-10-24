@@ -1,0 +1,2 @@
+cwa_example_test :
+    resource: "routing/test.yaml"

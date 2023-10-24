@@ -1,0 +1,3 @@
+cwa_test_page:
+    path: /cwa-test
+    controller: 'Cwa\SyliusExamplePlugin\Controller\testController::index'
