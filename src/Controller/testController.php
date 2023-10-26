@@ -9,6 +9,6 @@ class testController extends AbstractController
 {
     public function index(): Response
     {
-        return $this->render("test/test.html.twig");
+        return $this->render("@CwaSyliusExamplePlugin/test/test.html.twig");
     }
 }
