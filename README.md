@@ -1,122 +1,276 @@
-<p align="center">
-    <a href="https://sylius.com" target="_blank">
-        <img src="https://demo.sylius.com/assets/shop/img/logo.png" />
-    </a>
-</p>
+# Création de plugin CWA
 
-<h1 align="center">Plugin Skeleton</h1>
+## Installation du projet
 
-<p align="center">Skeleton for starting Sylius plugins.</p>
+```bash
+composer create-project sylius/plugin-skeleton VendorNameSyliusPluginNamePlugin
+```
 
-## Documentation
+## Changement dans le Nommage
 
-For a comprehensive guide on Sylius Plugins development please go to Sylius documentation,
-there you will find the <a href="https://docs.sylius.com/en/latest/plugin-development-guide/index.html">Plugin Development Guide</a>, that is full of examples.
+### Composer.json
 
-## Quickstart Installation
+Ajouter :
+```json
+{
+    "name": "vendor-name/sylius-plugin-name-plugin",
+    "description": "Description of plugin",
+    "version": "VERSION",
+// ...
+```
 
-### Traditional
+Changer :
+```json
+// ...
+ "autoload": {
+        "psr-4": {
+            "Acme\\SyliusExamplePlugin\\": "src/",
+            "Tests\\Acme\\SyliusExamplePlugin\\": "tests/"
+        }
+    },
+// ...
+```
+<div style="text-align: center"> 🔽 </div>
 
-1. Run `composer create-project sylius/plugin-skeleton ProjectName`.
+```json
+// ...
+ "autoload": {
+        "psr-4": {
+            "VendorName\\SyliusPluginNamePlugin\\": "src/",
+            "Tests\\VendorName\\SyliusPluginNamePlugin\\": "tests/"
+        }
+    },
+// ...
+```
 
-2. From the plugin skeleton root directory, run the following commands:
+### Renomage de fichiers
 
-    ```bash
-    $ (cd tests/Application && yarn install)
-    $ (cd tests/Application && yarn build)
-    $ (cd tests/Application && APP_ENV=test bin/console assets:install public)
-    
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:database:create)
-    $ (cd tests/Application && APP_ENV=test bin/console doctrine:schema:create)
-    ```
+**_src/AcmeSyliusExamplePlugin_** ▶️ **_src/VendorNameSyliusPluginNamePlugin_**
 
-To be able to set up a plugin's database, remember to configure you database credentials in `tests/Application/.env` and `tests/Application/.env.test`.
+**_src/DependencyInjection/AcmeSyliusExampleExtension_** ▶️ **_src/DependencyInjection/VendorNameSyliusPluginNameExtention_**
 
-### Docker
+### Changements dans les fichiers :
 
-1. Execute `docker compose up -d`
+- src/DependencyInjection/Configuration.php :
 
-2. Initialize plugin `docker compose exec app make init`
+    - namespace :
+        ```php
+        // ...
+        namespace Acme\SyliusExamplePlugin;
+        // ...
+        ```
+        <div style="text-align: center"> 🔽 </div>
 
-3. See your browser `open localhost`
+        ```php
+        // ...
+        namespace VendorName\SyliusPluginNamePlugin;
+        // ...
+        ```
 
-## Usage
+    - treeBuilder name :
 
-### Running plugin tests
+        ```php
+        // ...
+        public function getConfigTreeBuilder(): TreeBuilder
+            {
+                $treeBuilder = new TreeBuilder('iron_man_sylius_product_on_demand_plugin');
+        // ...
+        ```
+        <div style="text-align: center"> 🔽 </div>
 
-  - PHPUnit
+        ```php
+        // ...
+        public function getConfigTreeBuilder(): TreeBuilder
+            {
+                $treeBuilder = new TreeBuilder('vendor_name_sylius_plugin_name_plugin');
+        // ...
+        ```
 
-    ```bash
-    vendor/bin/phpunit
-    ```
+- src/DependencyInjection/VendorNameSyliusPluginNameExtension.php :
+    - namespace :
+        ```php
+        // ...
+        namespace Acme\SyliusExamplePlugin;
+        // ...
+        ```
+        <div style="text-align: center"> 🔽 </div>
 
-  - PHPSpec
+        ```php
+        // ...
+        namespace VendorName\SyliusPluginNamePlugin;
+        // ...
+        ```
+    - classname :
+        ```php
+        // ...
+        final class AcmeSyliusExampleExtension extends AbstractResourceExtension implements PrependExtensionInterface
+        // ...
+        ```
+        <div style="text-align: center"> 🔽 </div>
 
-    ```bash
-    vendor/bin/phpspec run
-    ```
+        ```php
+        // ...
+        final class VendorNameSyliusPluginNameExtension extends AbstractResourceExtension implements PrependExtensionInterface
+        // ...
+        ```
+    - Migration Diretory :
+        ```php
+        // ...
+        protected function getMigrationsDirectory(): string
+        {
+            return '@AcmeSyliusExamplePlugin/migrations';
+        }
+        // ...
+        ```
 
-  - Behat (non-JS scenarios)
+        <div style="text-align: center"> 🔽 </div>
 
-    ```bash
-    vendor/bin/behat --strict --tags="~@javascript"
-    ```
+        ```php
+        // ...
+        protected function getMigrationsDirectory(): string
+        {
+            return '@VendorNameSyliusPluginNamePlugin/migrations';
+        }
+        // ...
+        ```
+- src/VendorNameSyliusPluginNamePlugin.php :
+    - namespace :
+        ```php
+        // ...
+        namespace Acme\SyliusExamplePlugin;
+        // ...
+        ```
+        <div style="text-align: center"> 🔽 </div>
 
-  - Behat (JS scenarios)
- 
-    1. [Install Symfony CLI command](https://symfony.com/download).
- 
-    2. Start Headless Chrome:
-    
-      ```bash
-      google-chrome-stable --enable-automation --disable-background-networking --no-default-browser-check --no-first-run --disable-popup-blocking --disable-default-apps --allow-insecure-localhost --disable-translate --disable-extensions --no-sandbox --enable-features=Metal --headless --remote-debugging-port=9222 --window-size=2880,1800 --proxy-server='direct://' --proxy-bypass-list='*' http://127.0.0.1
-      ```
-    
-    3. Install SSL certificates (only once needed) and run test application's webserver on `127.0.0.1:8080`:
-    
-      ```bash
-      symfony server:ca:install
-      APP_ENV=test symfony server:start --port=8080 --dir=tests/Application/public --daemon
-      ```
-    
-    4. Run Behat:
-    
-      ```bash
-      vendor/bin/behat --strict --tags="@javascript"
-      ```
-    
-  - Static Analysis
+        ```php
+        // ...
+        namespace VendorName\SyliusPluginNamePlugin;
+        // ...
+        ```
+    - classname :
+        ```php
+        // ...
+        final class AcmeSyliusExamplePlugin extends Bundle
   
-    - Psalm
-    
-      ```bash
-      vendor/bin/psalm
-      ```
-      
-    - PHPStan
-    
-      ```bash
-      vendor/bin/phpstan analyse -c phpstan.neon -l max src/  
-      ```
+        // ...
+        ```
+        <div style="text-align: center"> 🔽 </div>
 
-  - Coding Standard
+        ```php
+        // ...
+        final class VendorNameSyliusPluginNamePlugin extends Bundle
   
-    ```bash
-    vendor/bin/ecs check
+        // ...
+        ```
+
+- tests/Application/config/bundles.php :
+    ```php
+    // ...
+        Acme\SyliusExamplePlugin\AcmeSyliusExamplePlugin::class => ['all' => true],
+    // ...
     ```
 
-### Opening Sylius with your plugin
+    <div style="text-align: center"> 🔽 </div>
 
-- Using `test` environment:
-
-    ```bash
-    (cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=test bin/console server:run -d public)
+    ```php
+    // ...
+        VendorName\SyliusPluginNamePlugin\VendorNameSyliusPluginNamePlugin::class => ['all' => true],
+    // ...
     ```
-    
-- Using `dev` environment:
 
-    ```bash
-    (cd tests/Application && APP_ENV=dev bin/console sylius:fixtures:load)
-    (cd tests/Application && APP_ENV=dev bin/console server:run -d public)
+- tests/Application/bin/console :
+    ```php
+    // ...
+    use Tests\Acme\SyliusExamplePlugin\Application\Kernel;
+    // ...
     ```
+
+    <div style="text-align: center"> 🔽 </div>
+
+    ```php
+    // ...
+    namespace Tests\Acme\SyliusExamplePlugin\Application;
+    // ...
+    ```
+
+- tests/Application/Kernel.php :
+    ```php
+    // ...
+    namespace Tests\VendorName\SyliusPluginNamePlugin\Application;
+    // ...
+    ```
+
+    <div style="text-align: center"> 🔽 </div>
+
+    ```php
+    // ...
+    use Tests\VendorName\SyliusPluginNamePlugin\Application\Kernel,
+    // ...
+    ```
+
+
+
+
+
+## Commandes à éxécuter  :
+
+```bash
+composer dump-autoload
+```
+
+```bash
+(cd tests/Application && yarn install)
+(cd tests/Application && yarn build)
+(cd tests/Application && APP_ENV=test bin/console assets:install public)
+```
+
+
+
+
+## Comment tester le plugin :
+
+### Environement de test intégré :
+
+### Importer les fichiers de configuration :
+
+-Tests/Application/config/routes.yaml :
+```yaml
+//...
+pluginName_example:
+    resource: "@VendorNameSyliusPluginNamePlugin/src/Resources/config/app/routing.yaml"
+//...
+```
+
+-Tests/Application/config/services.yaml :
+```yaml
+//...
+imports:
+    - { resource : '@VendorNameSyliusPluginNamePlugin/src/Resources/config/app/services.yaml'}
+//...
+```
+
+#### Démararer le serveur web :
+
+```bash
+(cd tests/Application && php symfony serve:start)
+```
+
+### Depuis un projet externe :
+
+#### Méthode git :
+
+```json
+//...
+ "repositories": {
+        "VendorNameSyliusPluginNamePlugin": {
+            "type": "git",
+            "url": "https://github.com/arhulCWA/tarteaufraise.git"
+        }
+    },
+//...
+    "require": {
+//...
+        "vendor-name/sylius-plugin-name-plugin" : "dev-main"
+    },
+//...
+```
