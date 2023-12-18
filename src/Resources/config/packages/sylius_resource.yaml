@@ -1,0 +1,8 @@
+sylius_resource:
+    resources:
+        cwa_test.page_legal_notice:
+            driver: doctrine/orm
+            classes:
+                model: Cwa\SyliusExamplePlugin\src\Entity\Static\PageLegalNotice
+                repository: Cwa\SyliusExamplePlugin\src\Repository\PageLegalNoticeRepository
+                form: Cwa\SyliusExamplePlugin\src\Form\PageLegalNoticeType

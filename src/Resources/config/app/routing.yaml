@@ -1,2 +1,8 @@
 cwa_example_test :
     resource: "routing/test.yaml"
+    cwa_test_page:
+        path: /cwa-test
+        controller: 'Cwa\SyliusExamplePlugin\Controller\testController::index'
+    cwa_front_legal_notice:
+        path: /mentions-legales
+        controller: 'Cwa\SyliusExamplePlugin\Controller\PageController::legal_notice_index'

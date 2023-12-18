@@ -264,7 +264,7 @@ imports:
  "repositories": {
         "VendorNameSyliusPluginNamePlugin": {
             "type": "git",
-            "url": "https://github.com/arhulCWA/tarteaufraise.git"
+            "url": "https://github.com/githubUserName/githubRepositoryName.git"
         }
     },
 //...

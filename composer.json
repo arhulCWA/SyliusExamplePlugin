@@ -1,7 +1,7 @@
 {
     "name": "cwa/sylius-example-plugin",
     "description": "Example plugin for Creatis Web Art",
-    "version": "0.1",
+    "version": "0.1.1",
     "type": "sylius-plugin",
     "keywords": [
         "sylius",

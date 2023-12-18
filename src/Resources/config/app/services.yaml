@@ -2,3 +2,14 @@ services:
     Cwa\SyliusExamplePlugin\Controller\testController:
         autowire: true
         autoconfigure: true
+    Cwa\SyliusExamplePlugin\Controller\PageController:
+        autowire: true
+        autoconfigure: true
+    Cwa\SyliusExamplePlugin\Entity\Static\PageLegalNotice:
+        autoconfigure: true
+        autowire: true
+    cwa.page_legal_notice.form.type:
+        class: Cwa\SyliusExamplePlugin\Form\PageLegalNoticeType
+        tags:
+            - { name: form.type }
+        arguments: ['@cwa.page_legal_notice.form.type', ['sylius']]
